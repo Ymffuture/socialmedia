@@ -1,27 +1,26 @@
-import { useEffect } from 'react';
-import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import YtoMp3 from "./pages/YtoMp3";
-import ErrorPage from "./pages/ErrorPage";
+import Menu from "./pages/Menu";
+import Checkout from "./pages/Checkout";
+import OrderStatus from "./pages/OrderStatus";
+import Success from "./pages/Success";
+import { OrderProvider } from "./context/OrderContext";
+import ErrorBoundary from "./components/ErrorBoundary";
 
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <>
-      <Route
-        path="/"
-        element={<Home />}
-        errorElement={<ErrorPage />}
-      />
-      <Route
-        path="/yt-mp3"
-        element={<YtoMp3 />}
-      />
-    </>
-  )
-);
 export default function App() {
   return (
-    <RouterProvider router={router} />
-  )
+    <ErrorBoundary>
+      <OrderProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order/:id" element={<OrderStatus />} />
+            <Route path="/success" element={<Success />} />
+          </Routes>
+        </BrowserRouter>
+      </OrderProvider>
+    </ErrorBoundary>
+  );
 }
